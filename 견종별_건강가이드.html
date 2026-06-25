@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>견종별 건강가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1a2e;background-image:radial-gradient(ellipse at 30% 50%,#0a1628,transparent 60%),radial-gradient(ellipse at 70% 50%,#050d1a,transparent 60%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Noto Serif KR',Georgia,serif;padding:20px;user-select:none;}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.book-outer{position:relative;width:720px;height:520px}
+.book-shadow{position:absolute;bottom:-18px;left:15%;width:70%;height:30px;background:rgba(0,0,0,0.5);filter:blur(18px);border-radius:50%}
+.page{width:720px;height:520px;background:#fdf6e3;border-radius:3px 10px 10px 3px;box-shadow:-3px 0 6px rgba(0,0,0,0.2),8px 8px 24px rgba(0,0,0,0.5),18px 18px 40px rgba(0,0,0,0.3),inset -4px 0 12px rgba(0,0,0,0.06);overflow:hidden;position:relative;transform-origin:left center;}
+.page::before{content:'';position:absolute;left:0;top:0;bottom:0;width:48px;background:linear-gradient(to right,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.06) 50%,transparent 100%);z-index:20;pointer-events:none}
+.page::after{content:'';position:absolute;right:0;top:0;bottom:0;width:16px;background:linear-gradient(to left,rgba(0,0,0,0.07),transparent);z-index:20;pointer-events:none}
+.pc{padding:48px 64px 48px 72px;height:100%;overflow-y:auto;scrollbar-width:none}
+.pc::-webkit-scrollbar{display:none}
+.pc.full{padding:0}
+@keyframes fOut{0%{transform:perspective(1400px) rotateY(0)}100%{transform:perspective(1400px) rotateY(-18deg);opacity:.4}}
+@keyframes fIn{0%{transform:perspective(1400px) rotateY(18deg);opacity:.4}100%{transform:perspective(1400px) rotateY(0)}}
+@keyframes fOutL{0%{transform:perspective(1400px) rotateY(0)}100%{transform:perspective(1400px) rotateY(18deg);opacity:.4}}
+@keyframes fInL{0%{transform:perspective(1400px) rotateY(-18deg);opacity:.4}100%{transform:perspective(1400px) rotateY(0)}}
+.fo{animation:fOut .28s ease forwards}.fi{animation:fIn .28s ease forwards}.fol{animation:fOutL .28s ease forwards}.fil{animation:fInL .28s ease forwards}
+.pnum{position:absolute;bottom:18px;right:28px;font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#3a7bd5;z-index:30}
+.prog{width:720px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(to right,#1a5fa8,#4aa3f0);border-radius:2px;transition:width .4s ease}
+.nav{display:flex;align-items:center;gap:20px}
+.nbtn{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.78);padding:10px 26px;border-radius:24px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:13px;transition:all .2s;backdrop-filter:blur(8px);}
+.nbtn:hover:not(:disabled){background:rgba(255,255,255,0.18);color:#fff}
+.nbtn:disabled{opacity:.28;cursor:not-allowed}
+.pcnt{color:rgba(255,255,255,0.5);font-family:'Noto Sans KR',sans-serif;font-size:12px;min-width:70px;text-align:center}
+.hint{font-family:'Noto Sans KR',sans-serif;font-size:11px;color:rgba(255,255,255,0.22);text-align:center}
+.cover{background:linear-gradient(150deg,#061020 0%,#0d2340 45%,#061020 100%);color:#e8f0fb;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;height:100%;padding:44px 36px}
+.cover h1{font-size:32px;font-weight:700;line-height:1.5;color:#fff}
+.cover-line{width:48px;height:1px;background:#4aa3f0;margin:16px auto}
+.ctp{background:linear-gradient(135deg,#f0f5fd,#fdf6e3);display:flex;flex-direction:column;justify-content:center;padding:56px 70px;height:100%}
+.cnum{font-family:'Noto Sans KR',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:#1a5fa8;margin-bottom:16px}
+.ctitle{font-size:28px;font-weight:700;color:#1a1a1a;line-height:1.5;margin-bottom:20px}
+.cline{width:44px;height:3px;background:#1a5fa8;margin-bottom:24px}
+.cintro{font-family:'Noto Sans KR',sans-serif;font-size:14px;color:#555;line-height:2}
+.stitle{font-size:19px;font-weight:700;color:#1a1a1a;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #b8d0f0}
+.bt{font-family:'Noto Sans KR',sans-serif;font-size:13.5px;color:#3a3a3a;line-height:2.05;margin-bottom:14px}
+.hb{background:#eef4fd;border-left:4px solid #1a5fa8;padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0}
+.hb p{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:#0d2a55;line-height:1.95;font-weight:500}
+.kp{background:#f0f7ff;border:1px solid #b8d0f0;border-radius:8px;padding:14px 18px;margin:14px 0}
+.kpt{font-family:'Noto Sans KR',sans-serif;font-size:10px;font-weight:700;color:#1a5fa8;letter-spacing:2px;margin-bottom:7px}
+.kp p{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:#1a3060;line-height:1.85}
+.sh{font-size:14px;font-weight:600;color:#1a5fa8;margin:16px 0 8px}
+ul.cl{list-style:none;padding:0;margin:8px 0}
+ul.cl li{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:#3a3a3a;line-height:1.95;padding-left:18px;position:relative;margin-bottom:4px}
+ul.cl li::before{content:'•';position:absolute;left:0;color:#1a5fa8;font-weight:bold}
+table.ct{width:100%;border-collapse:collapse;margin:14px 0;font-family:'Noto Sans KR',sans-serif;font-size:12.5px}
+table.ct th{background:#1a5fa8;color:#fff;padding:9px 12px;text-align:left;font-weight:600}
+table.ct td{padding:9px 12px;border-bottom:1px solid #b8d0f0;color:#3a3a3a;line-height:1.6}
+table.ct tr:nth-child(even) td{background:#f0f5fd}
+.toc-i{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #d0e4f8}
+.toc-cn{font-family:'Noto Sans KR',sans-serif;font-size:10px;font-weight:700;color:#1a5fa8;width:44px;flex-shrink:0}
+.toc-t{font-family:'Noto Sans KR',sans-serif;font-size:14px;color:#2a2a2a;flex:1}
+.toc-d{flex:1;border-bottom:1px dotted #b0c8e8;margin:0 10px;height:10px;max-width:120px}
+.toc-p{font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#1a5fa8}
+.ep{background:linear-gradient(140deg,#061020,#0d2340);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;height:100%;color:#fff;padding:56px}
+.ep h2{font-size:26px;line-height:1.55;margin-bottom:18px}
+.ep p{font-family:'Noto Sans KR',sans-serif;font-size:14px;color:rgba(255,255,255,0.75);line-height:2.1}
+.ep-line{width:50px;height:2px;background:#4aa3f0;margin:18px auto}
+.toc-link:hover{background:#e8f2fc;border-radius:8px;transition:background 0.2s;}
+.toc-sub{padding:4px 8px 4px 20px;font-size:12px;color:#555;border-left:2px solid #b8d0f0;margin:2px 0 2px 14px;cursor:pointer;border-radius:0 6px 6px 0;transition:background 0.15s}
+.toc-sub:hover{background:#e8f2fc}
+.side-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:40;width:52px;height:80px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.65);font-size:28px;cursor:pointer;transition:all .2s;backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;line-height:1;font-family:sans-serif;}
+.side-btn:hover:not(:disabled){background:rgba(255,255,255,0.22);color:#fff;transform:translateY(-50%) scale(1.07);}
+.side-btn:disabled{opacity:.15;cursor:not-allowed;transform:translateY(-50%);}
+.side-prev{left:-62px;border-radius:10px 0 0 10px;}
+.side-next{right:-62px;border-radius:0 10px 10px 0;}
+.badge-r{display:inline-block;background:#c0392b;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:4px}
+.badge-o{display:inline-block;background:#e67e22;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:4px}
+.badge-y{display:inline-block;background:#f1c40f;color:#333;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:4px}
+.sig-row{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-bottom:1px solid #e8f0f8;font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#3a3a3a;line-height:1.6}
+.sig-b{flex:0 0 auto;width:9px;height:9px;border-radius:50%;margin-top:4px}
+.sig-b.r{background:#c0392b}
+.sig-b.o{background:#e67e22}
+.sig-b.y{background:#f1c40f}
+.sig-txt{flex:1}
+.sig-mean{color:#888;font-size:11px;margin-top:2px}
+.dog-header{display:flex;align-items:center;gap:12px;padding:10px 14px;background:linear-gradient(135deg,#e8f2fc,#f0f7ff);border-radius:10px;margin-bottom:14px;border:1px solid #b8d0f0}
+.dog-icon{font-size:28px}
+.dog-name{font-size:17px;font-weight:700;color:#0d2340}
+.dog-sub{font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#555;margin-top:2px}
+.dog-role{font-family:'Noto Sans KR',sans-serif;font-size:10px;color:#1a5fa8;font-weight:700;margin-top:4px;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="book-outer">
+    <div class="book-shadow"></div>
+    <button class="side-btn side-prev" id="pb" onclick="prev()">‹</button>
+    <button class="side-btn side-next" id="nb" onclick="next()">›</button>
+    <div class="page" id="page">
+      <div class="pc" id="pc"></div>
+      <div class="pnum" id="pnum"></div>
+    </div>
+  </div>
+  <div class="prog"><div class="pfill" id="pfill"></div></div>
+  <span class="pcnt" id="pcnt"></span>
+  <div class="hint">← → 키 · 양옆 버튼 · 스와이프로 넘기세요</div>
+</div>
+<script>
+const pages=[
+
+/* ── 표지 ── */
+`<div class="cover">
+  <p style="font-size:11px;color:#4aa3f0;letter-spacing:3px;font-weight:700;margin-bottom:16px">🌸 2026 봄 수의사 긴급 가이드</p>
+  <div style="background:rgba(74,163,240,0.12);border:1px solid rgba(74,163,240,0.3);border-radius:12px;padding:14px 20px;margin-bottom:22px">
+    <p style="font-size:13px;line-height:2;color:#c8dff8;margin:0;font-style:italic">"몸이 보내는 신호를 읽는 순간<br>치료의 골든타임이 생깁니다."</p>
+  </div>
+  <h1 style="font-size:30px;font-weight:800;line-height:1.5;color:#fff;margin-bottom:6px">견종별 건강가이드</h1>
+  <div class="cover-line"></div>
+  <p style="font-size:12px;color:#90b8e0;line-height:2;margin-bottom:22px">봄 산책 후 갑자기 보이는 그 행동의 진짜 의미<br>견종별·페르소나별 맞춤 진단 &amp; 케어</p>
+  <div style="display:flex;gap:18px;justify-content:center;margin-bottom:8px">
+    <div style="text-align:center"><div style="font-size:20px">🏥</div><div style="font-size:10px;color:#6090c0;margin-top:4px">케이스 5,000건+</div></div>
+    <div style="text-align:center"><div style="font-size:20px">📍</div><div style="font-size:10px;color:#6090c0;margin-top:4px">16년 통합의학</div></div>
+    <div style="text-align:center"><div style="font-size:20px">📅</div><div style="font-size:10px;color:#6090c0;margin-top:4px">2026 최신 가이드</div></div>
+  </div>
+  <p style="font-size:11px;color:#4a7090;margin-top:10px;letter-spacing:1px">🐾 하나로 양한방동물병원</p>
+</div>`,
+
+/* ── 머리말 ── */
+`<div style="padding:4px 2px;display:flex;flex-direction:column;height:100%">
+<div class="stitle" style="margin-bottom:14px">머리말</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+  <div style="text-align:center;margin-bottom:2px">
+    <p style="font-size:15px;font-weight:800;color:#0d2340;line-height:1.8;margin:0">봄 산책 후 달라진 우리 아이,<br>왜 갑자기 그럴까요?</p>
+  </div>
+  <div class="hb" style="padding:12px 16px">
+    <p style="font-size:13.5px;line-height:2;font-style:italic;color:#0d2340;margin:0">"신호가 없어서 놓치는 것이 아닙니다.<br>신호를 읽는 법을 몰라서입니다."</p>
+  </div>
+  <p class="bt">매년 봄마다 병원으로 전화를 주시는 보호자분들이 있습니다. 어제까지 멀쩡하던 아이가 오늘 갑자기 다리를 들고, 계단을 주저하고, 눈빛이 달라졌다고 하십니다.</p>
+  <div class="kp">
+    <div class="kpt">이 가이드에 담은 것</div>
+    <p>5,000건 이상의 임상 케이스에서 뽑아낸<br>봄철 가장 중요한 이야기들입니다.<br><br>견종마다 통증을 표현하는 방식이 다르고,<br>나이마다 보내는 신호가 다릅니다.<br>이 책이 그 차이를 읽어드립니다.</p>
+  </div>
+  <p class="bt" style="color:#555">우리 병원에 오든 오지 않든, 이 봄을 우리 아이들이 안전하게 보내길 바라는 마음이 먼저였습니다.</p>
+  <p style="text-align:right;font-size:12px;color:#888;margin-top:auto">— 하나로양한방동물병원 원장</p>
+</div>
+</div>`,
+
+/* ── 목차 ── */
+`<div class="stitle">목 차</div>
+<div style="font-size:11px;color:#aaa;margin-bottom:12px;text-align:center">항목을 누르면 해당 페이지로 이동합니다</div>
+
+<div class="toc-i toc-link" onclick="go(3,'next')" style="cursor:pointer"><span class="toc-cn">1장</span><span class="toc-t">봄철 근골격 위기의 원리</span><span class="toc-d"></span></div>
+<div class="toc-sub" onclick="go(4,'next')">왜 하필 봄인가</div>
+<div class="toc-sub" onclick="go(5,'next')">보편적 통증 신호 해독표</div>
+
+<div class="toc-i toc-link" onclick="go(6,'next')" style="cursor:pointer;margin-top:6px"><span class="toc-cn">2장</span><span class="toc-t">닥스훈트 — 척추를 지키는 케어</span><span class="toc-d"></span></div>
+<div class="toc-sub" onclick="go(7,'next')">🐾 멜리 (9세) — 초기 증상 발견형</div>
+<div class="toc-sub" onclick="go(9,'next')">🐾 조이 (6세) — 재활 진행형 홈케어</div>
+<div class="toc-sub" onclick="go(11,'next')">🐾 볼트 (13세) — 노령견 고위험군</div>
+
+<div class="toc-i toc-link" onclick="go(13,'next')" style="cursor:pointer;margin-top:6px"><span class="toc-cn">3장</span><span class="toc-t">소형견 맞춤 케어 가이드</span><span class="toc-d"></span></div>
+<div class="toc-sub" onclick="go(14,'next')">🐾 딱지 (요크셔테리어 17세)</div>
+<div class="toc-sub" onclick="go(16,'next')">🐾 제이 (비글 10세)</div>
+<div class="toc-sub" onclick="go(18,'next')">🐾 봄이 (말티즈 6세)</div>
+
+<div class="toc-i toc-link" onclick="go(20,'next')" style="cursor:pointer;margin-top:6px"><span class="toc-cn">4장</span><span class="toc-t">자주 묻는 질문 5가지</span><span class="toc-d"></span></div>
+<div class="toc-sub" onclick="go(21,'next')">Q1~Q3 — 쉬면 낫나요? 비용은? 수술 없이?</div>
+<div class="toc-sub" onclick="go(22,'next')">Q4~Q5 — 나이 많은데? 수술하면 완치?</div>
+<div class="toc-sub" onclick="go(23,'next')">마치며</div>`,
+
+/* ── Chapter 1 인트로 ── */
+`<div class="ctp"><div class="cnum">CHAPTER 1</div><div class="ctitle">봄철<br>근골격 위기의<br>원리</div><div class="cline"></div><div class="cintro">겨울 동안 조용히 약해진 근육이<br>봄 산책의 부하를 버티지 못합니다.<br><br>보호자가 어떻게 반응하느냐에 따라<br>2~4주 후의 결과가 완전히 달라집니다.</div></div>`,
+
+/* ── 왜 봄인가 ── */
+`<div class="stitle">왜 하필 봄인가</div>
+<p class="bt">겨울 동안 실내에서 지내던 강아지의 근육은 조용히 약해집니다. 그런데 봄이 되면 어떻게 되나요?</p>
+<div class="hb" style="margin-bottom:14px"><p style="font-size:13px;line-height:2">보호자도 신나고, 강아지도 신납니다. 갑자기 산책이 길어집니다. 공원을 뛰어다닙니다. 그리고 — 다음 날 아침, <strong>무언가가 달라져 있습니다.</strong></p></div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+  <div style="background:#f0f5fd;border-left:3px solid #1a5fa8;padding:9px 12px;border-radius:0 8px 8px 0">
+    <div style="font-size:11px;color:#888;margin-bottom:2px">원인</div>
+    <div style="font-size:13px;font-weight:700;color:#0d2340">겨우내 약해진 근육</div>
+    <div style="font-size:11px;color:#555;margin-top:3px">→ 갑작스러운 운동 부하를 버티지 못합니다</div>
+  </div>
+  <div style="background:#fff0f0;border-left:3px solid #c0392b;padding:9px 12px;border-radius:0 8px 8px 0">
+    <div style="font-size:11px;color:#888;margin-bottom:2px">위험</div>
+    <div style="font-size:13px;font-weight:700;color:#7d1a1a">골든타임을 놓치는 이유</div>
+    <div style="font-size:11px;color:#555;margin-top:3px">→ "하루만 더 보자"가 가장 흔한 실수입니다</div>
+  </div>
+</div>
+<div class="kp"><div class="kpt">저는 이것을 '봄철 근골격 충격'이라 부릅니다</div><p>강아지는 말을 못 합니다. 대신 <strong>몸으로 말합니다.</strong><br>견종마다 통증을 표현하는 방식이 다르고,<br>나이마다 보내는 신호가 다릅니다.</p></div>`,
+
+/* ── 보편적 통증 신호 해독표 ── */
+`<div class="stitle">보편적 통증 신호 해독표</div>
+<div style="font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#888;margin-bottom:10px">모든 견종 공통 — 강아지의 행동이 말하는 것</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>갑자기 주저앉음 / 뒷다리 힘 빠짐</strong><div class="sig-mean">24시간 안에 병원. 척수 압박 전조 가능성 높음.</div></div></div>
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>소변·대변 갑작스러운 실수</strong><div class="sig-mean">척수 신경 손상이 방광·장 기능에 영향. 응급 수준.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>한쪽 다리를 들고 걷는다</strong><div class="sig-mean">관절 통증 회피 또는 신경 이상 초기. 3일 지속 시 내원.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>계단·소파를 갑자기 주저한다</strong><div class="sig-mean">통증으로 체중 싣기를 피하는 행동. 자발적 회피.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>안기거나 만지는 걸 피한다</strong><div class="sig-mean">통증 부위 보호 반응. 평소와 다르다면 신호.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>산책 후 유독 오래 잔다</strong><div class="sig-mean">회복에 에너지 집중. 근육·관절 피로 축적 신호.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>앉았다 일어날 때 천천히</strong><div class="sig-mean">기동 시 통증. 노령견 퇴행성 관절염 전형 패턴.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>걸음걸이가 살짝 어색해졌다</strong><div class="sig-mean">뒷발이 앞발 자리에 정확히 안 닿으면 신경 전달 확인.</div></div></div>
+</div>
+<div style="display:flex;gap:12px;margin-top:12px;font-family:'Noto Sans KR',sans-serif;font-size:11px">
+  <span><span style="display:inline-block;width:8px;height:8px;background:#c0392b;border-radius:50%;margin-right:4px"></span>즉시 병원</span>
+  <span><span style="display:inline-block;width:8px;height:8px;background:#e67e22;border-radius:50%;margin-right:4px"></span>수일 내 내원</span>
+  <span><span style="display:inline-block;width:8px;height:8px;background:#f1c40f;border-radius:50%;margin-right:4px"></span>주의 관찰</span>
+</div>`,
+
+/* ── Chapter 2 인트로 ── */
+`<div class="ctp"><div class="cnum">CHAPTER 2</div><div class="ctitle">닥스훈트<br>척추를 지키는<br>케어</div><div class="cline"></div><div class="cintro">닥스훈트는 통증을 '참는' 견종입니다.<br>활발해 보이는 동안에도<br>내부에서는 이미 진행이 시작될 수 있습니다.<br><br>멜리 · 조이 · 볼트의 이야기로<br>케어 전략을 살펴봅니다.</div></div>`,
+
+/* ── 멜리 신호표 ── */
+`<div class="dog-header"><div class="dog-icon">🐾</div><div><div class="dog-name">멜리 — 미니어처 닥스훈트 9세</div><div class="dog-sub">해변 근처 거주 | @melixxachoi</div><div class="dog-role">🩺 초기 증상 발견형 — 한쪽 다리 들고 다님</div></div></div>
+<div style="font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#888;margin-bottom:8px">닥스훈트 전용 몸의 언어 해독 — 봄 산책 후 특히 확인하세요</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>등을 구부리고 움직임</strong><div class="sig-mean">척추 압박 직접 신호. IVDD 급성 발작 가능성. 즉시 병원.</div></div></div>
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>앞발로만 이동 (뒷다리 끌림)</strong><div class="sig-mean">척수 마비 진행 중. 골든타임은 48시간 이내.</div></div></div>
+  <div class="sig-row" style="background:#eef4fd;border-radius:6px"><div class="sig-b o"></div><div class="sig-txt"><strong>한쪽 다리를 간헐적으로 든다 ← 멜리의 현재</strong><div class="sig-mean">IVDD 초기 또는 관절 문제. 봄 산책 증가로 악화 위험.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>계단에서 뒷다리를 끌어올린다</strong><div class="sig-mean">허리 힘 부족 또는 신경 전달 저하. 계단 보조 필요.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>산책 후 더 오래 눕고 일어서기 느려짐</strong><div class="sig-mean">봄 산책 증가로 인한 척추 피로 누적.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>고개 돌릴 때 몸 전체를 돌린다</strong><div class="sig-mean">경추 통증 또는 경직. 목을 돌리는 게 아프다는 신호.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>배나 옆구리를 핥는다</strong><div class="sig-mean">통증 부위를 핥는 전위 행동. 디스크 통증 표현.</div></div></div>
+</div>`,
+
+/* ── 멜리 케이스 ── */
+`<div class="stitle">멜리 케이스 — '참는 강아지, 모르는 보호자'</div>
+<p class="bt">멜리는 9살 미니어처 닥스훈트입니다. 보호자분은 활발한 멜리를 데리고 해변 산책을 매일 즐기셨습니다. 올 3월부터 가끔 왼쪽 다리를 들고 걷는 것이 포착되었습니다.</p>
+<div class="hb"><p><strong>닥스훈트의 함정:</strong> 활발해 보일 때도 내부에서 디스크 압력이 쌓입니다. "아직 잘 뛰는데?"라는 생각이 가장 위험한 순간입니다. 특히 봄철 모래사장 산책은 허리에 불규칙한 충격을 줍니다.</p></div>
+<div class="sh">지금 멜리에게 필요한 것</div>
+<ul class="cl">
+  <li>모래사장 → <strong>잔디·우레탄 트랙</strong>으로 산책 환경 전환 (봄철 당장)</li>
+  <li>산책 시간 현재의 <strong>50%로 줄이고</strong> 2주 후 재평가</li>
+  <li>한쪽 다리 드는 빈도 기록 (언제·어떤 상황에서)</li>
+  <li>X-ray 또는 초음파로 현재 디스크 상태 확인 권장</li>
+</ul>
+<div class="kp"><div class="kpt">권원장 한마디</div><p>"산책할 때 한쪽 다리를 가끔 드는 것 같다면, 그냥 지나치지 마세요. 닥스 9살 멜리처럼 활발해 보여도, 그 한쪽 다리 안에 이미 신호가 들어와 있습니다."</p></div>`,
+
+/* ── 조이 소개 ── */
+`<div class="dog-header"><div class="dog-icon">🐾</div><div><div class="dog-name">조이 — 닥스훈트 6세</div><div class="dog-sub">안양·안양천 산책권 | @lvly_joy | 닥스훈트 4마리</div><div class="dog-role">🔗 재활 현재 진행형 — 레이저·침·마사지·추나·수영 병행</div></div></div>
+<p class="bt">조이는 체중이 5.0kg에서 6.8kg으로 늘었다가 다이어트 재활을 병행하고 있습니다. 이 하나의 수치가 닥스훈트에게 얼마나 치명적인지, 숫자로 말씀드립니다.</p>
+<table class="ct">
+<tr><th>체중 변화</th><th>척추에 미치는 영향</th></tr>
+<tr><td>5.0kg → 6.8kg 증가</td><td>척추 하중 약 <strong>36% 증가</strong></td></tr>
+<tr><td>닥스훈트 체형</td><td>몸통 길고 다리 짧음 → 척추 1cm당 체중 부하 <strong>타 견종의 2배</strong></td></tr>
+<tr><td>6세라는 나이</td><td>IVDD(추간판질환) 발병 피크: <strong>3~7세</strong>. 지금이 가장 위험한 시기</td></tr>
+</table>
+<div class="kp"><div class="kpt">핵심</div><p>병원에서 치료받는 시간: 1주일에 2~3시간<br>집에서 지내는 시간: 나머지 <strong>165시간</strong><br><br>그 165시간 동안 무엇을 하느냐가 치료 효과를 결정합니다.</p></div>`,
+
+/* ── 조이 홈케어 ── */
+`<div class="stitle">조이 홈케어 루틴</div>
+<table class="ct">
+<tr><th>구분</th><th>조이에게 맞는 홈케어</th></tr>
+<tr><td><strong>재활 당일</strong></td><td>치료 후 30분 조용히 쉬게. 저녁 온열 패드 15분 (척추 라인). 계단 없는 환경 유지.</td></tr>
+<tr><td><strong>비재활 당일</strong></td><td>아침 5분 스트레칭. 15분×2회 평지 산책. 오후 스니퍼스 10분 (정신 자극).</td></tr>
+<tr><td><strong>다견 환경</strong></td><td>4마리 함께 뛰다 보면 조이도 흥분. 조이만 별도 공간 '침착 시간' 필요.</td></tr>
+<tr><td><strong>봄 산책 주의</strong></td><td>안양천 자갈·계단 구간 우회. 봄철 흥분 전력질주 차단.</td></tr>
+</table>
+<div class="kp"><div class="kpt">권원장 한마디</div><p>"조이처럼 레이저도 하고 침도 하고 수영도 하고 있는데, 집에 돌아오면 뭘 해줘야 할지 모르겠다면 — 그 공백이 사실 가장 중요한 시간입니다."</p></div>
+<div class="hb" style="margin-top:10px"><p style="font-size:12px;line-height:1.9;margin:0">💡 닥스훈트 4마리 다견 가정은 조이의 흥분도 관리가 핵심입니다.<br>재활 중인 아이는 흥분 상태 자체가 척추에 부담이 됩니다.</p></div>`,
+
+/* ── 볼트 소개 ── */
+`<div class="dog-header"><div class="dog-icon">🐾</div><div><div class="dog-name">볼트 — 닥스훈트 13세</div><div class="dog-sub">서울 종로 거주 | @volt.dachshund</div><div class="dog-role">📚 노령견 고위험군 — 근거 기반 정보 수집형</div></div></div>
+<div style="font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#888;margin-bottom:8px">13세 닥스훈트에게 봄이 주는 위험은 젊은 아이들과 다릅니다</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>걸을 때 뒷다리가 안쪽으로 굽어든다</strong><div class="sig-mean">척수 신경 마비 진행. 지체하면 회복 어려움.</div></div></div>
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>소변을 참지 못하거나 실수한다</strong><div class="sig-mean">척수 신경이 방광 기능에 영향. 즉시 평가 필요.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>뒷다리 근육이 눈에 띄게 가늘어졌다</strong><div class="sig-mean">근육 위축(근감소증). 13세 이상 필수 확인 항목.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>봄 산책 후 평소보다 긴 수면</strong><div class="sig-mean">회복 시간 증가. 심폐 기능 확인도 병행 권장.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>음수량 또는 식욕 변화</strong><div class="sig-mean">신장·간 기능과 연관. 노령견 필수 정기 체크.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>예전보다 발을 헛디딘다</strong><div class="sig-mean">고유감각 저하 — 발이 어디 있는지 못 느끼는 상태.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>자다가 낑낑거린다</strong><div class="sig-mean">수면 중 통증 표현. 관절 또는 신경통 가능성.</div></div></div>
+</div>`,
+
+/* ── 볼트 케어 ── */
+`<div class="stitle">볼트 케어 방향 — '13살이라도 포기하지 않습니다'</div>
+<p class="bt">13세 닥스훈트에게 봄은 두 가지 위험이 겹칩니다.</p>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+  <div style="background:#fff0f0;border-left:3px solid #c0392b;padding:9px 12px;border-radius:0 8px 8px 0"><div style="font-size:12px;font-weight:700;color:#7d1a1a">① 겨우내 약해진 근육에 갑작스러운 운동 부하</div><div style="font-size:11px;color:#555;margin-top:2px">→ 디스크 압박 위험 증가</div></div>
+  <div style="background:#fff5e8;border-left:3px solid #e67e22;padding:9px 12px;border-radius:0 8px 8px 0"><div style="font-size:12px;font-weight:700;color:#7d4000">② 기온 변화로 인한 관절 주변 혈액순환 변동</div><div style="font-size:11px;color:#555;margin-top:2px">→ 통증 민감도 상승</div></div>
+</div>
+<table class="ct">
+<tr><th>항목</th><th>볼트를 위한 봄철 관리</th></tr>
+<tr><td>운동</td><td>15분×1회 평지 천천히. 뛰기 완전 금지. 잔디 위 걷기.</td></tr>
+<tr><td>영양</td><td>근감소증 예방 단백질 보충. 오메가3 필수. 관절 보조제 병행.</td></tr>
+<tr><td>정기 검진</td><td>3개월 주기 혈액 검사 + 신체검사. 심폐·신장 기능 함께.</td></tr>
+<tr><td>한방 치료</td><td>침 치료는 13세+ 노령견에서 마취 없이 진통 효과 우수.</td></tr>
+</table>
+<div class="kp"><div class="kpt">권원장 한마디</div><p>"볼트처럼 13살 닥스훈트라면, 척추보다 먼저 걱정해야 할 게 하나 더 있습니다 — <strong>근감소증</strong>. 그리고 지금부터 할 수 있는 것이 분명히 있습니다."</p></div>`,
+
+/* ── Chapter 3 인트로 ── */
+`<div class="ctp"><div class="cnum">CHAPTER 3</div><div class="ctitle">소형견<br>맞춤 케어<br>가이드</div><div class="cline"></div><div class="cintro">요크셔테리어 · 비글 · 말티즈<br><br>견종마다 봄이 주는 위험의 종류가 다릅니다.<br>딱지 · 제이 · 봄이의 이야기로<br>각 견종별 케어 포인트를 살펴봅니다.</div></div>`,
+
+/* ── 딱지 신호표 ── */
+`<div class="dog-header"><div class="dog-icon">🐾</div><div><div class="dog-name">딱지 — 요크셔테리어 17세</div><div class="dog-sub">서울 권역 | @ddakjinet | 왕플루언서</div><div class="dog-role">🤝 청력 저하·과도 핥기·인지기능 저하 의심</div></div></div>
+<div style="font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#888;margin-bottom:8px">17세 요키의 봄 위험은 관절보다 다른 곳에 있습니다</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>방향 감각 상실 / 벽에 부딪힌다</strong><div class="sig-mean">인지기능 저하(CCD) 진행. 봄 환경 변화가 혼란 심화.</div></div></div>
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>발작 또는 갑작스러운 기절</strong><div class="sig-mean">17세 요키 심폐·신경 응급. 즉시 평가.</div></div></div>
+  <div class="sig-row" style="background:#eef4fd;border-radius:6px"><div class="sig-b o"></div><div class="sig-txt"><strong>과도한 핥기 ← 딱지의 현재 행동</strong><div class="sig-mean">불안·통증·인지 저하 복합 신호. 핥는 부위로 원인 구분.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>이름 불러도 반응 느려짐</strong><div class="sig-mean">청력 저하 + 인지기능 저하 복합. 봄 소음 환경 스트레스.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>밤에 울거나 배회한다</strong><div class="sig-mean">CCD 야간 혼동 증상. 봄 일조 시간 변화로 악화 가능.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>식욕은 있지만 씹는 게 느려짐</strong><div class="sig-mean">치아 통증 또는 근신경 저하. 노령견 구강 상태 확인.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>봄 외출 후 유독 불안해한다</strong><div class="sig-mean">감각 저하 상태에서 환경 자극 과부하. 외출 시간 단축 권장.</div></div></div>
+</div>`,
+
+/* ── 딱지 케이스 ── */
+`<div class="stitle">딱지 케이스 — '17년 보호자의 눈은 이미 의사입니다'</div>
+<p class="bt">딱지 보호자님은 17년을 함께 사셨습니다. 딱지의 '평소'를 누구보다 잘 아십니다. 그 기준으로 '달라졌다'고 느끼시는 순간이 가장 중요한 신호입니다.</p>
+<div class="sh">과도한 핥기 행동 — 세 가지로 구분하세요</div>
+<div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px">
+  <div style="background:#f0f5fd;border-left:3px solid #1a5fa8;padding:9px 12px;border-radius:0 8px 8px 0;font-family:'Noto Sans KR',sans-serif;font-size:12px">
+    <strong>특정 부위를 집중적으로 핥는다</strong><br><span style="color:#555">→ 그 부위의 통증 표현 가능성</span>
+  </div>
+  <div style="background:#f0f5fd;border-left:3px solid #1a5fa8;padding:9px 12px;border-radius:0 8px 8px 0;font-family:'Noto Sans KR',sans-serif;font-size:12px">
+    <strong>아무 부위나 반복해서 핥는다</strong><br><span style="color:#555">→ 불안·인지기능 저하 관련 행동 가능성</span>
+  </div>
+  <div style="background:#fff5e8;border-left:3px solid #e67e22;padding:9px 12px;border-radius:0 8px 8px 0;font-family:'Noto Sans KR',sans-serif;font-size:12px">
+    <strong>봄이 되면서 갑자기 심해졌다</strong><br><span style="color:#555">→ 환경 자극 변화에 대한 스트레스 반응</span>
+  </div>
+</div>
+<div class="hb"><p>17세 요키에게 봄은 '신나는 계절'이 아닐 수 있습니다.<br>새 소리·꽃 냄새·일조 시간 변화가 감각이 저하된 고령견에게는 혼란이 됩니다.<br><br><strong>외출보다 실내 환경 안정화가 우선입니다.</strong></p></div>`,
+
+/* ── 제이 신호표 ── */
+`<div class="dog-header"><div class="dog-icon">🐾</div><div><div class="dog-name">제이 — 비글 10세</div><div class="dog-sub">댕그족 보호자 / 최근 활동 저조 | @_luv_jay</div><div class="dog-role">💪 과체중 의심 — 관절·허리 위험 / 행동 촉매 필요</div></div></div>
+<div style="font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#888;margin-bottom:8px">비글의 몸이 보내는 신호 — '귀찮아서'가 아니라 '무거워서'입니다</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+  <div class="sig-row"><div class="sig-b r"></div><div class="sig-txt"><strong>뒷다리를 끌거나 주저앉는다</strong><div class="sig-mean">고관절·슬관절 손상 진행 중. 즉시 확인.</div></div></div>
+  <div class="sig-row" style="background:#eef4fd;border-radius:6px"><div class="sig-b o"></div><div class="sig-txt"><strong>봄 산책 시 예전보다 빨리 지친다 ← 제이의 신호</strong><div class="sig-mean">과체중 + 관절 통증 복합. '귀찮아서'가 아닙니다.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>앉는 자세가 어색하다 (다리를 옆으로 뺀다)</strong><div class="sig-mean">고관절 통증 회피 자세. 비글 10세 전형 패턴.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>계단 오르내림을 갑자기 주저한다</strong><div class="sig-mean">슬관절(무릎) 통증 회피. 과체중 시 더 빨리 악화.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>산책 후 뒷다리를 핥는다</strong><div class="sig-mean">관절 통증 부위 핥기. 비글의 통증 표현 방식.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>달리다가 갑자기 멈추고 다리를 든다</strong><div class="sig-mean">슬개골 또는 관절 일시 통증. 봄 흥분 상태에서 잦아짐.</div></div></div>
+</div>`,
+
+/* ── 제이 케어 ── */
+`<div class="stitle">제이 케어 — '오늘부터 딱 하나만'</div>
+<p class="bt">제이에게 지금 가장 중요한 메시지는 하나입니다.</p>
+<div class="hb" style="text-align:center;padding:16px"><p style="font-size:14px;line-height:2;font-style:italic;margin:0">"산책이 줄었다면,<br>그게 제이가 귀찮아서가 아닙니다.<br><strong>몸이 무거워서일 수 있습니다."</strong></p></div>
+<table class="ct">
+<tr><th>항목</th><th>제이를 위한 봄 케어</th></tr>
+<tr><td>산책</td><td>15분×2회. 잔디·흙 우선. 속도보다 방향 다양화 (냄새 맡기 = 정신 자극).</td></tr>
+<tr><td>체중</td><td>지금 체중에서 10% 감량 목표. 처방식보다 <strong>급여량 조절이 우선.</strong></td></tr>
+<tr><td>관절</td><td>오메가3 + 글루코사민 병행. 따뜻한 날씨에도 실내 미끄럼 방지 매트.</td></tr>
+<tr><td>봄 주의</td><td>흥분 상태에서 전력질주 차단. 비글은 코를 따라 몸이 먼저 나갑니다.</td></tr>
+</table>
+<div class="kp"><div class="kpt">권원장 한마디</div><p>"제이처럼 10살 비글, 요즘 산책이 예전만큼 안 된다면 — 귀찮아서가 아니라 몸이 무거워서일 수 있어요. 오늘부터 딱 이것 하나만 바꿔보세요."</p></div>`,
+
+/* ── 봄이 신호표 ── */
+`<div class="dog-header"><div class="dog-icon">🐾</div><div><div class="dog-name">봄이 — 말티즈 6세</div><div class="dog-sub">감성형 보호자 | @seasons230903</div><div class="dog-role">🌸 예방 고관여형 — 아직 증상 없음, 슬개골 관리 시작할 때</div></div></div>
+<p class="bt" style="margin-bottom:10px">봄이는 지금 건강합니다. 그래서 이 가이드가 더 중요합니다. 말티즈는 슬개골 탈구 소인종으로, 6살이면 슬개골 건강이 갈림길에 서는 시기입니다.</p>
+<div style="font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#888;margin-bottom:8px">말티즈의 몸이 보내는 슬개골 신호 — 봄에 특히 확인하세요</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>달리다가 갑자기 한쪽 뒷다리를 든다</strong><div class="sig-mean">슬개골 일시 탈구. 봄 흥분 상태에서 첫 발생 잦음.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>뛰다가 토끼처럼 두 발을 모아 뛴다</strong><div class="sig-mean">슬개골 불편 회피 자세. '토끼 걸음'이라고 부릅니다.</div></div></div>
+  <div class="sig-row"><div class="sig-b o"></div><div class="sig-txt"><strong>점프 후 착지 시 한쪽만 먼저 닿는다</strong><div class="sig-mean">착지 충격 분산 실패. 관절 비대칭 부하.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>아스팔트보다 잔디에서 더 활발하다</strong><div class="sig-mean">본능적으로 충격 적은 면 선호. 좋은 신호이자 관리 힌트.</div></div></div>
+  <div class="sig-row"><div class="sig-b y"></div><div class="sig-txt"><strong>실내 미끄러운 바닥에서 자주 미끄러진다</strong><div class="sig-mean">슬개골 안정화 근육 약화. 미끄럼 방지 즉시 필요.</div></div></div>
+</div>`,
+
+/* ── 봄이 케이스 ── */
+`<div class="stitle">봄이 케이스 — '지금이 가장 쉽게 시작할 수 있는 때'</div>
+<p class="bt">말티즈의 90%에서 슬개골 문제가 나타납니다. 그리고 첫 증상은 대부분 <strong>'봄 산책 흥분 상태'</strong>에서 나타납니다.</p>
+<div class="hb"><p>달리다가 갑자기 한쪽 뒷다리를 드는 것 — 이걸 처음 보는 날이 오지 않게 하는 게 <strong>지금 우리가 할 일</strong>입니다.</p></div>
+<div class="sh">봄이에게 딱 하나만 부탁드립니다</div>
+<div style="background:#e8f2fc;border:2px solid #1a5fa8;border-radius:12px;padding:18px;text-align:center;margin:12px 0">
+  <div style="font-size:15px;font-weight:700;color:#0d2340;line-height:1.8">집 안 미끄러운 바닥에<br><strong>미끄럼 방지 매트를 깔아주세요.</strong><br>오늘 바로.</div>
+  <div style="font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#555;margin-top:8px">이것 하나가 슬개골 수술을 막을 수 있습니다.</div>
+</div>
+<div class="kp"><div class="kpt">권원장 한마디</div><p>"봄이처럼 6살 말티즈, 아직 아무 증상 없죠? 이 시기가 사실 가장 중요한 시기예요. 아프기 전에 할 수 있는 게 많은 때니까요."</p></div>`,
+
+/* ── Chapter 4 인트로 ── */
+`<div class="ctp"><div class="cnum">CHAPTER 4</div><div class="ctitle">자주 묻는<br>질문 5가지</div><div class="cline"></div><div class="cintro">봄마다 상담 전화로 가장 많이 듣는 질문입니다.<br>숨기지 않고 솔직하게 드립니다.</div></div>`,
+
+/* ── FAQ Q1~Q3 ── */
+`<div class="stitle">자주 묻는 질문 (Q1~Q3)</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+  <div>
+    <div class="sh" style="margin-top:0">Q1. 좀 쉬면 낫지 않을까요?</div>
+    <p class="bt" style="margin-bottom:0">일부 맞습니다. 하지만 <strong>'쉬면 낫는 근육 통증'</strong>과 <strong>'쉬어도 악화되는 디스크·신경 문제'</strong>는 집에서 구분이 불가능합니다. 특히 닥스훈트와 비글은 증상이 없어 보일 때도 내부에서 진행되는 경우가 많습니다.</p>
+    <div style="font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#c0392b;margin-top:6px;font-weight:600">→ "하루만 더 보자"가 골든타임을 놓치는 가장 흔한 이유입니다.</div>
+  </div>
+  <div style="border-top:1px solid #d0e4f8;padding-top:14px">
+    <div class="sh" style="margin-top:0">Q2. 비용이 얼마나 드나요?</div>
+    <p class="bt" style="margin-bottom:0">보존 치료(침·레이저·재활)는 수술 대비 평균 <strong>1/4~1/5 비용</strong>입니다. 더 중요한 것은 — 지금 초기에 4~8주 치료로 종결되는 케이스가, 6개월 방치 시 수술 단계가 됩니다.</p>
+    <div style="font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#1a5fa8;margin-top:6px;font-weight:600">→ 비용이 걱정되신다면 상담 전화 한 통부터 주세요.</div>
+  </div>
+  <div style="border-top:1px solid #d0e4f8;padding-top:14px">
+    <div class="sh" style="margin-top:0">Q3. 수술 없이도 낫나요?</div>
+    <p class="bt" style="margin-bottom:0">낫습니다 — 조건이 있습니다. 신경 감각이 남아 있는 단계, 증상 발현 후 <strong>48시간 이내</strong>, 척수 손상 3등급 이하인 경우 보존 치료 성공률이 매우 높습니다.</p>
+    <div style="font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#e67e22;margin-top:6px;font-weight:600">→ 단, 늦으면 선택지가 줄어듭니다.</div>
+  </div>
+</div>`,
+
+/* ── FAQ Q4~Q5 ── */
+`<div class="stitle">자주 묻는 질문 (Q4~Q5)</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+  <div>
+    <div class="sh" style="margin-top:0">Q4. 우리 아이가 나이가 많아서...</div>
+    <p class="bt" style="margin-bottom:0">나이는 치료의 방해 요소가 아닙니다. <strong>13세 닥스훈트도, 17세 요키도</strong> 의미 있는 개선을 보인 케이스가 있습니다. 고령일수록 마취 위험이 있는 수술보다 비침습적 통합 치료가 더 적합합니다.</p>
+    <div style="font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#1a5fa8;margin-top:6px;font-weight:600">→ 나이가 많다고 포기하지 마세요. 방향이 달라질 뿐입니다.</div>
+  </div>
+  <div style="border-top:1px solid #d0e4f8;padding-top:14px">
+    <div class="sh" style="margin-top:0">Q5. 수술하면 완전히 낫나요?</div>
+    <p class="bt" style="margin-bottom:0">수술은 만능이 아닙니다. 성공률은 타이밍과 손상 정도에 따라 크게 달라집니다. 보존적 치료로 회복 가능한 케이스에 수술을 먼저 시도하는 것은 오히려 불필요한 위험을 더합니다.</p>
+    <div style="font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#e67e22;margin-top:6px;font-weight:600">→ 보존 치료를 먼저 시도하는 것이 논리적 순서입니다.</div>
+  </div>
+  <div style="border-top:1px solid #d0e4f8;padding-top:14px">
+    <div class="kp" style="margin:0">
+      <div class="kpt">다음 자료 예고</div>
+      <p>🌿 여름 대비 — 열사병과 패드 화상, 수중 재활 활용법 (6월 예정)<br>📋 노령견 3개월 주기 관찰 일지 (딱지·볼트 보호자 맞춤 템플릿)<br>🎯 견종별 운동 처방전 시리즈 (닥스·비글·말티즈·포메 개별 콘텐츠)</p>
+    </div>
+  </div>
+</div>`,
+
+/* ── 마치며 ── */
+`<div class="ep">
+  <div style="font-size:48px;margin-bottom:20px">🐾</div>
+  <h2>알면 안 아프게<br>할 수 있습니다</h2>
+  <div class="ep-line"></div>
+  <p>멜리의 다리, 조이의 체중, 볼트의 근감소증,<br>딱지의 핥기 행동, 제이의 지친 산책,<br>봄이의 건강한 오늘 —<br><br>이 모든 이야기를 함께 읽어드리고 싶었습니다.<br><br>우리 병원에 오든 오지 않든,<br>이 봄을 우리 아이들이 안전하게 보내길<br>바라는 마음이 먼저였습니다.<br><br><strong>🏥 하나로 양한방동물병원<br>김포 유일 양·한방 병행 | 근골격·신경 전문</strong></p>
+</div>`
+];
+
+let cur=0,busy=false;
+const total=pages.length;
+const FULL=['cover','ctp','ep'];
+function isFullPage(html){return FULL.some(c=>html.includes('class="'+c+'"'))}
+function render(){
+  const html=pages[cur];
+  const pc=document.getElementById('pc');
+  pc.innerHTML=html;
+  pc.className=isFullPage(html)?'pc full':'pc';
+  pc.scrollTop=0;
+  document.getElementById('pnum').textContent=(cur===0||cur===total-1)?'':cur;
+  document.getElementById('pcnt').textContent=`${cur+1} / ${total}`;
+  document.getElementById('pfill').style.width=`${((cur+1)/total)*100}%`;
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('nb').disabled=cur===total-1;
+}
+function go(idx,dir){
+  if(busy||idx<0||idx>=total)return;
+  busy=true;
+  const pg=document.getElementById('page');
+  const outC=dir==='next'?'fo':'fol';
+  const inC=dir==='next'?'fi':'fil';
+  pg.classList.add(outC);
+  setTimeout(()=>{
+    pg.classList.remove(outC);cur=idx;render();
+    pg.classList.add(inC);
+    setTimeout(()=>{pg.classList.remove(inC);busy=false},280);
+  },280);
+}
+function next(){go(cur+1,'next')}
+function prev(){go(cur-1,'prev')}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')next();
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')prev();
+});
+let tx=0;
+const pg=document.getElementById('page');
+pg.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+pg.addEventListener('touchend',e=>{
+  const d=tx-e.changedTouches[0].clientX;
+  if(Math.abs(d)>50){d>0?next():prev();}
+},{passive:true});
+let wt=0;
+document.addEventListener('wheel',e=>{
+  if(Math.abs(e.deltaY)<40)return;
+  const pc=document.getElementById('pc');
+  const scrollable=pc.scrollHeight>pc.clientHeight+10;
+  if(scrollable){
+    const atBottom=pc.scrollTop+pc.clientHeight>=pc.scrollHeight-4;
+    const atTop=pc.scrollTop<=0;
+    if(e.deltaY>0&&!atBottom)return;
+    if(e.deltaY<0&&!atTop)return;
+  }
+  const now=Date.now();
+  if(now-wt<400)return;
+  wt=now;
+  if(e.deltaY>0)next();
+  else if(e.deltaY<0)prev();
+},{passive:true});
+render();
+</script>
+</body>
+</html>
